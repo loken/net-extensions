@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup>
+    <DebugType>embedded</DebugType>
+    <RootName>Loken.Extensions</RootName>
+    <IsTestProject>$(MSBuildProjectName.EndsWith('.Test'))</IsTestProject>
+    <AssemblyName>$(RootName).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(AssemblyName.Replace('.Test', ''))</RootNamespace>
+    <PackageId>$(AssemblyName)</PackageId>
+    <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--We always want to be able to access internals from the corresponding test project.-->
+    <InternalsVisibleTo Condition="!$(IsTestProject)" Include="$(AssemblyName).Test" />
+  </ItemGroup>
+
+</Project>
