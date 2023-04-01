@@ -10,6 +10,14 @@
     <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup Condition="$(IsPackable)">
+    <!--Locked: So that we don't add it to each project by accident when updating packages.-->
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="[1.1.1]">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
   <ItemGroup>
     <!--We always want to be able to access internals from the corresponding test project.-->
     <InternalsVisibleTo Condition="!$(IsTestProject)" Include="$(AssemblyName).Tests" />
