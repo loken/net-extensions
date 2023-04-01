@@ -1,0 +1,56 @@
+name: dotnet package
+
+on:
+  push:
+    branches:
+      - main
+      - 'releases?/**'
+      - 'features?/**'
+      - 'pr/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '7.0.x' ]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required for GitVersion
+
+      - name: Install .NET SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          source-url: https://nuget.pkg.github.com/loken/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+
+      - name: Versioning
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+          additionalArguments: /updateprojectfiles
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: dotnet pack --configuration Release --no-build -o ./output/nuget
+
+      - name: 'Nuget: Push to GH Packages'
+        run: dotnet nuget push ./output/nuget/*.nupkg
