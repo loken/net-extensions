@@ -1,4 +1,4 @@
-name: dotnet package
+name: CI
 
 on:
   push:
@@ -12,19 +12,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '7.0.x' ]
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Required for GitVersion
 
-      - name: Install .NET SDK ${{ matrix.dotnet-version }}
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 7.0.x
           source-url: https://nuget.pkg.github.com/loken/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
