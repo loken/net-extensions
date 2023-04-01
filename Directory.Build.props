@@ -1,13 +1,20 @@
 <Project>
 
   <PropertyGroup>
-    <DebugType>embedded</DebugType>
-    <RootName>Loken.Extensions</RootName>
     <IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>
+    <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
+
     <AssemblyName>Loken.Extensions.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>Loken.$(MSBuildProjectName.Replace('.Tests', ''))</RootNamespace>
-    <PackageId>$(AssemblyName)</PackageId>
-    <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
+    <Authors>Gaute Løken</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(IsPackable)">
+    <DebugType>embedded</DebugType>
+    <IncludeSymbols>false</IncludeSymbols>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageProjectUrl>https://github.com/loken/loken-extensions</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsPackable)">
