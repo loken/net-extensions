@@ -45,4 +45,12 @@ public static class TypeExtensions
 
 		return friendlyName.Replace('+', '.');
 	}
+
+	/// <summary>
+	/// Check if the <paramref name="type"/> is assignable from null; that a variable of the <paramref name="type"/> may be assigned a null.
+	/// </summary>
+	public static bool IsAssignableFromNull(this Type type)
+	{
+		return !type.IsValueType || Nullable.GetUnderlyingType(type) != null;
+	}
 }
