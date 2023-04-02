@@ -18,8 +18,8 @@ public static class DictionaryMultiMapExtensions
 			if (rawValue is null)
 				continue;
 
-			var key = rawKey.ConvertTo<string, TKey>();
-			var values = rawValue.SplitBy(sep.Value).Select(v => v.ConvertTo<string, TValue>());
+			var key = rawKey.ChangeType<TKey>();
+			var values = rawValue.SplitBy(sep.Value).Select(v => v.ChangeType<TValue>());
 			multiMap.LazySet(key).AddRange(values);
 		}
 

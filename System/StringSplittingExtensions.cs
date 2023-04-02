@@ -66,8 +66,8 @@ public static class StringSplittingExtensions
 	public static KeyValuePair<TKey, TValue?> SplitKvp<TKey, TValue>(this string source, params char[] separators)
 	{
 		var parts = source.Split(separators, 2, StringSplitOptions.None);
-		var key = parts[0].ConvertTo<TKey>();
-		var value = parts.Length == 2 ? parts[1].ConvertTo<TValue>() : default;
+		var key = parts[0].ChangeType<TKey>();
+		var value = parts.Length == 2 ? parts[1].ChangeType<TValue>() : default;
 
 		return new KeyValuePair<TKey, TValue?>(key, value);
 	}
