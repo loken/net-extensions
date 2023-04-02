@@ -3,9 +3,9 @@ namespace Loken.System;
 public class StringSplittingExtensionTests
 {
 	[Fact]
-	public void SplitDefault()
+	public void SplitByDefault()
 	{
-		Assert.Equal(new[] { "A", "B", "C" }, "A,B,C".SplitDefault());
+		Assert.Equal(new[] { "A", "B", "C" }, "A,B,C".SplitByDefault());
 	}
 
 	[Fact]
