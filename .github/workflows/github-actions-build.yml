@@ -54,6 +54,7 @@ jobs:
         run: dotnet pack --configuration Release --no-build -o ./output/nuget
 
       - name: 'Nuget: Push to GH Packages'
+        if: ${{ env.GitVersion_PreReleaseLabel != '' }}
         run: dotnet nuget push ./output/nuget/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'Nuget: Push release to nuget.org'
