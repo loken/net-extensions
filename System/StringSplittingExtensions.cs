@@ -17,6 +17,7 @@ public static class StringSplittingExtensions
 	/// <summary>
 	/// Split the <paramref name="source"/> into a string array.
 	/// </summary>
+	/// <param name="separators">
 	/// Separators to use for splitting the <paramref name="source"/>.
 	/// Will use the <see cref="StringDefaults.Separators"/> if no separators are provided.
 	/// </param>
@@ -28,6 +29,7 @@ public static class StringSplittingExtensions
 	/// <summary>
 	/// Split the <paramref name="source"/> into a string array.
 	/// </summary>
+	/// <param name="separators">
 	/// Separators to use for splitting the <paramref name="source"/>.
 	/// Will use the <see cref="StringDefaults.Separators"/> if no separators are provided.
 	/// </param>
@@ -63,6 +65,7 @@ public static class StringSplittingExtensions
 	/// <summary>
 	/// Split the <paramref name="source"/> into a <see cref="KeyValuePair{TKey,TValue}"/> using <see cref="ConvertExtensions.ChangeType{TTarget}(object?)"/>.
 	/// </summary>
+	/// <param name="separators">
 	/// Separators to use for splitting the <paramref name="source"/>.
 	/// Will use the <see cref="StringDefaults.Separators"/> if no separators are provided.
 	/// </param>
