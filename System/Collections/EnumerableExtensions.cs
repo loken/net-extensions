@@ -24,4 +24,13 @@ public static class EnumerableExtensions
 		var current = enumerator.Current;
 		return enumerator.MoveNext() ? defaultVal : current;
 	}
+
+	/// <summary>
+	/// Turn a <paramref name="value"/> that may be <c>null</c> into an enumerable.
+	/// </summary>
+	public static IEnumerable<T> ToEnumerable<T>(this T? value)
+	{
+		if (value is not null)
+			yield return value;
+	}
 }
