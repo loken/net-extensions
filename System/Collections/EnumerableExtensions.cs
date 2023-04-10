@@ -1,4 +1,6 @@
-﻿namespace Loken.System.Collections;
+﻿using System.Collections;
+
+namespace Loken.System.Collections;
 
 public static class EnumerableExtensions
 {
@@ -32,5 +34,17 @@ public static class EnumerableExtensions
 	{
 		if (value is not null)
 			yield return value;
+	}
+
+	/// <summary>
+	/// Enumerate all items in the <paramref name="enumerable"/>.
+	/// Useful when enumerating has side effects and you don't want to create a throwaway collection for the results.
+	/// </summary>
+	public static void EnumerateAll(this IEnumerable enumerable)
+	{
+		var enumerator = enumerable.GetEnumerator();
+		while (enumerator.MoveNext())
+		{
+		}
 	}
 }

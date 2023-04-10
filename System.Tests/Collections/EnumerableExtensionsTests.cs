@@ -40,4 +40,26 @@ public class EnumerableExtensionsTests
 		Assert.Equal("Item 1", enumerable.SingleOrDefaultMany("def"));
 		Assert.Equal("Item 1", array.SingleOrDefaultMany("def"));
 	}
+
+	[Fact]
+	public void EnumerateAll_TriggersSideEffects()
+	{
+		var items = new HashSet<int>();
+
+		var enumerable = Multiple(5);
+		Assert.Empty(items);
+
+		enumerable.EnumerateAll();
+		Assert.Equal(new[] { 2, 4 }, items);
+
+		IEnumerable<int> Multiple(int count)
+		{
+			foreach (var i in Enumerable.Range(1, count))
+			{
+				if (i % 2 == 0)
+					items!.Add(i);
+				yield return i;
+			}
+		}
+	}
 }
