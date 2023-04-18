@@ -12,4 +12,12 @@ public static class StringJoiningExtensions
 	{
 		return string.Join(separator, source);
 	}
+
+	/// <summary>
+	/// Fluent shorthand for <see cref="string.Join(char, IEnumerable{string})"/>.
+	/// </summary>
+	public static string Join(this IEnumerable<string> source, char separator)
+	{
+		return string.Join(separator, source);
+	}
 }
