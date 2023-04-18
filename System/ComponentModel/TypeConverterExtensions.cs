@@ -14,7 +14,7 @@ public static class TypeConverterExtensions
 	/// <exception cref="NotSupportedException">
 	/// When no cast or <see cref="TypeConverter"/> is available between the source <see cref="Type"/>
 	/// and the <paramref name="targetType"/>.</exception>
-	public static object? Convert(this object source, Type targetType, object? defaultValue)
+	public static object? Convert(this object source, Type targetType, object? defaultValue = default)
 	{
 		return source.Convert(targetType, () => defaultValue);
 	}
