@@ -157,6 +157,15 @@ Some of these provide extra utility and others are convenience wrappers for stan
   queue.Enqueue(strings);
   ```
 
+* Interchangeable data structure for queues and stacks
+  ```csharp
+  ILinear<string> strings = useQueue ? new LinearQueue<string>() : new LinearStack<string>();
+  strings.Attach("A", "B");
+  var one = strings.Detach();
+  var two = strings.Detach();
+  // Content of one and two depends on useQueue.
+  ```
+
 * Read/write a dictionary of strings to a string so that it can be passed in a URL.
   ```csharp
   const string source = "ANull~Str:SomeText~Text:Some text";
