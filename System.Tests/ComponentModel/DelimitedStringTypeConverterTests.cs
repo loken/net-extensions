@@ -9,6 +9,8 @@ public class DelimitedStringTypeConverterTests : IDisposable
 	public void Dispose()
 	{
 		TypeDescriptor.RemoveProvider(DescriptorProvider, typeof(ICollection<string>));
+
+		GC.SuppressFinalize(this);
 	}
 
 	[Fact]

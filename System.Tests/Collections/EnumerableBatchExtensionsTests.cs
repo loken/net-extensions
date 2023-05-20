@@ -108,7 +108,7 @@ public class EnumerableBatchExtensionsTests
 		}
 	}
 
-	private void AssertAreBatchesEqual<T>(T[][] expected, T[][] actual)
+	private static void AssertAreBatchesEqual<T>(T[][] expected, T[][] actual)
 	{
 		Assert.Equal(expected.Length, actual.Length);
 
