@@ -37,4 +37,13 @@ public class StringSplittingExtensionTests
 		KeyValuePair<string, string?> expected = new("A", "B");
 		Assert.Equal(expected, actual);
 	}
+
+	[Fact]
+	public void SplitKvp_WithExtraSegments()
+	{
+		var actual = @"A:B:Extra".SplitKvp();
+
+		KeyValuePair<string, string?> expected = new("A", "B:Extra");
+		Assert.Equal(expected, actual);
+	}
 }
