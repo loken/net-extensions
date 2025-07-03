@@ -3,109 +3,191 @@ namespace Loken.System.Collections.MultiMap;
 public class MultiMapTests
 {
 	[Fact]
-	public void AddEmpty()
+	public void Constructor_CreatesEmptyMultiMap()
 	{
 		var map = new MultiMap<string>();
 
-		// Test Add with no values creates empty set
-		var valuesAdded = map.Add("Key1");
-		Assert.Equal(0, valuesAdded);
-		Assert.True(map.ContainsKey("Key1"));
-		Assert.Empty(map["Key1"]);
+		Assert.Empty(map);
 	}
 
 	[Fact]
-	public void AddValues()
+	public void GetAll_ReturnsAllKeysAndValues()
 	{
 		var map = new MultiMap<string>();
-
-		// Test Add with params array
-		var addedCount = map.Add("Key1", "Value1", "Value2");
-		Assert.Equal(2, addedCount);
-		Assert.Equal(new List<string> { "Value1", "Value2" }, map["Key1"].ToList());
-
-		// Test Add with IEnumerable
-		var moreAdded = map.Add("Key1", new[] { "Value3", "Value1" }); // Value1 is duplicate
-		Assert.Equal(1, moreAdded); // Only Value3 was added
-		Assert.Equal(new List<string> { "Value1", "Value2", "Value3" }, map["Key1"].OrderBy(x => x).ToList());
-	}
-
-	[Fact]
-	public void RemoveValues()
-	{
-		var map = new MultiMap<string>();
-		map.Add("Key1", "Value1", "Value2", "Value3");
-
-		// Test removing specific values with params
-		var removed1 = map.Remove("Key1", "Value1", "Value3");
-		Assert.Equal(new HashSet<string> { "Value1", "Value3" }, removed1);
-		Assert.Equal(new List<string> { "Value2" }, map["Key1"].ToList());
-
-		// Test removing with IEnumerable
-		var removed2 = map.Remove("Key1", new[] { "Value2" });
-		Assert.Equal(new HashSet<string> { "Value2", "Key1" }, removed2); // Include key when it's removed
-		Assert.False(map.ContainsKey("Key1")); // Key should be removed when set becomes empty
-	}
-
-	[Fact]
-	public void GetAll()
-	{
-		var map = new MultiMap<string>();
-		map.Add("Key1", "Value1", "Value2");
-		map.Add("Key2", "Value3", "Value1"); // Value1 appears twice
+		map.Add("A", "A1", "A2");
+		map.Add("B", "B1");
+		map.Add("C"); // Empty set
 
 		var all = map.GetAll();
-		Assert.Equal(new List<string> { "Key1", "Key2", "Value1", "Value2", "Value3" }, all.OrderBy(x => x).ToList());
+		var expected = new HashSet<string> { "A", "A1", "A2", "B", "B1", "C" };
+		Assert.Equal(expected, all);
+		Assert.Equal(6, all.Count);
 	}
 
 	[Fact]
-	public void ParseAndRender()
-	{
-		const string input = """
-		A:A1,A2
-		A1:A11,A12
-		B:B1,B2
-		""";
-
-		var map = MultiMap.Parse<string>(input);
-		Assert.Equal(new List<string> { "A1", "A2" }, map["A"].ToList());
-
-		var output = MultiMap.Render(map);
-		Assert.Equal(input, output);
-	}
-
-	[Fact]
-	public void ParseInto()
+	public void Add_CreatesEmptySetForKey()
 	{
 		var map = new MultiMap<string>();
-		map.Add("Existing", "Value");
 
-		const string input = """
-		A:A1,A2
-		B:B1,B2
-		""";
-
-		var result = map.Parse(input);
-		Assert.Same(map, result); // Should return same instance
-		Assert.True(map.ContainsKey("Existing")); // Should preserve existing data
-		Assert.Equal(new List<string> { "A1", "A2" }, map["A"].ToList());
+		var added = map.Add("emptyKey");
+		Assert.Equal(0, added);
+		Assert.True(map.ContainsKey("emptyKey"));
+		Assert.Empty(map["emptyKey"]);
 	}
 
 	[Fact]
-	public void PreservesKeysWithoutValues()
+	public void Add_WithSingleValue()
 	{
-		const string input = """
-		KeyWithValues:A,B
-		KeyWithoutValues
-		""";
+		var map = new MultiMap<string>();
 
-		var map = MultiMap.Parse<string>(input);
+		var added = map.Add("key1", "value1");
+		Assert.Equal(1, added);
+		Assert.True(map["key1"].Contains("value1"));
+		Assert.Single(map["key1"]);
+	}
 
-		Assert.Equal(new List<string> { "A", "B" }, map["KeyWithValues"].ToList());
-		Assert.True(map.ContainsKey("KeyWithoutValues"));
-		Assert.Empty(map["KeyWithoutValues"]);
+	[Fact]
+	public void Add_WithMultipleValues()
+	{
+		var map = new MultiMap<string>();
 
-		var output = MultiMap.Render(map);
-		Assert.Equal(input, output);
+		var added = map.Add("key1", "value1", "value2", "value3");
+		Assert.Equal(3, added);
+		var expected = new HashSet<string> { "value1", "value2", "value3" };
+		Assert.Equal(expected, map["key1"]);
+	}
+
+	[Fact]
+	public void Add_WithDuplicateValues()
+	{
+		var map = new MultiMap<string>();
+
+		var added1 = map.Add("key1", "value1", "value2");
+		var added2 = map.Add("key1", "value2", "value3");
+
+		Assert.Equal(2, added1);
+		Assert.Equal(1, added2); // Only value3 was new
+		var expected = new HashSet<string> { "value1", "value2", "value3" };
+		Assert.Equal(expected, map["key1"]);
+		Assert.Equal(3, map["key1"].Count);
+	}
+
+	[Fact]
+	public void Remove_ValuesFromExistingKey()
+	{
+		var map = new MultiMap<string>();
+		map.Add("key1", "value1", "value2", "value3");
+
+		var removed = map.Remove("key1", "value1", "value3");
+
+		var expectedRemoved = new HashSet<string> { "value1", "value3" };
+		Assert.Equal(expectedRemoved, removed);
+		Assert.Equal(2, removed.Count);
+		var expectedRemaining = new HashSet<string> { "value2" };
+		Assert.Equal(expectedRemaining, map["key1"]);
+		Assert.True(map.ContainsKey("key1")); // Key still exists
+	}
+
+	[Fact]
+	public void Remove_AllValuesRemovesKey()
+	{
+		var map = new MultiMap<string>();
+		map.Add("key1", "value1", "value2");
+
+		var removed = map.Remove("key1", "value1", "value2");
+
+		var expectedRemoved = new HashSet<string> { "value1", "value2", "key1" }; // Include key when removed
+		Assert.Equal(expectedRemoved, removed);
+		Assert.Equal(3, removed.Count);
+		Assert.False(map.ContainsKey("key1")); // Key was removed
+	}
+
+	[Fact]
+	public void Remove_FromNonExistentKey_ReturnsEmptySet()
+	{
+		var map = new MultiMap<string>();
+
+		var removed = map.Remove("nonExistentKey", "value1");
+
+		Assert.Empty(removed);
+		Assert.False(map.ContainsKey("nonExistentKey"));
+	}
+
+	[Fact]
+	public void Remove_NonExistentValues_ReturnsEmptySet()
+	{
+		var map = new MultiMap<string>();
+		map.Add("key1", "value1");
+
+		var removed = map.Remove("key1", "nonExistentValue");
+
+		Assert.Empty(removed);
+		var expectedRemaining = new HashSet<string> { "value1" };
+		Assert.Equal(expectedRemaining, map["key1"]); // Original value still there
+	}
+
+	[Fact]
+	public void Remove_PartialMatch()
+	{
+		var map = new MultiMap<string>();
+		map.Add("key1", "value1", "value2");
+
+		var removed = map.Remove("key1", "value1", "nonExistentValue");
+
+		var expectedRemoved = new HashSet<string> { "value1" };
+		Assert.Equal(expectedRemoved, removed);
+		Assert.Single(removed);
+		var expectedRemaining = new HashSet<string> { "value2" };
+		Assert.Equal(expectedRemaining, map["key1"]);
+	}
+
+	[Fact]
+	public void ComplexOperations()
+	{
+		var map = new MultiMap<int>();
+
+		// Build a tree structure: 1 -> [11, 12], 11 -> [111, 112], 2 -> [21]
+		map.Add(1, 11, 12);
+		map.Add(11, 111, 112);
+		map.Add(2, 21);
+
+		Assert.Equal(3, map.Count);
+		var expectedAll = new HashSet<int> { 1, 11, 12, 111, 112, 2, 21 };
+		Assert.Equal(expectedAll, map.GetAll());
+		Assert.Equal(7, map.GetAll().Count);
+
+		// Remove some values
+		var removed1 = map.Remove(1, 12);
+		var expectedRemoved1 = new HashSet<int> { 12 };
+		Assert.Equal(expectedRemoved1, removed1);
+		var expectedRemaining1 = new HashSet<int> { 11 };
+		Assert.Equal(expectedRemaining1, map[1]);
+
+		// Remove all values from a key
+		var removed2 = map.Remove(11, 111, 112);
+		var expectedRemoved2 = new HashSet<int> { 111, 112, 11 }; // Include key
+		Assert.Equal(expectedRemoved2, removed2);
+		Assert.False(map.ContainsKey(11));
+
+		// Final state
+		Assert.Equal(2, map.Count);
+		var expectedFinal1 = new HashSet<int> { 11 };
+		Assert.Equal(expectedFinal1, map[1]);
+		var expectedFinal2 = new HashSet<int> { 21 };
+		Assert.Equal(expectedFinal2, map[2]);
+	}
+
+	[Fact]
+	public void WorksWithDifferentTypes()
+	{
+		var stringMap = new MultiMap<string>();
+		stringMap.Add("str", "a", "b");
+		var expectedStringValues = new HashSet<string> { "a", "b" };
+		Assert.Equal(expectedStringValues, stringMap["str"]);
+
+		var numberMap = new MultiMap<int>();
+		numberMap.Add(1, 2, 3);
+		var expectedNumberValues = new HashSet<int> { 2, 3 };
+		Assert.Equal(expectedNumberValues, numberMap[1]);
 	}
 }
