@@ -188,23 +188,35 @@ Some of these provide extra utility and others are convenience wrappers for stan
 
 ### Loken.System.Collections.MultiMap
 
-A "MultiMap" is a dictionary where each key maps to multiple values of the same type; `IDictionary<T, ISet<T>>`, which essentially is the same as an `ILookup<T, T>` but has the benefit of providing easy access to an `ISet<T>` rather than yielding an `IEnumerable<T>` like the lookup does.
+A `MultiMap` is a `Dictionary<T, ISet<T>>` where each key maps to multiple values of the same type and provides convenience methods for managing multiple values per key.
 
-Baked in with the concept is the idea that you might want to parse a string into a MultiMap or render a MultiMap to a string. We provide extension methods for that.
+The `MultiMap` class provides `.Render()` and `.Parse()` methods which can act as serializers and takes some optional settings to control separators.
 
 We use `Convert.ChangeType` and `.ToString()` for conversions.
 
 ```csharp
+// Creating a MultiMap explicitly
+var map = new MultiMap<int>();
+map.Add(1, 11);
+map.Add(1, 12);
+map.Add(11, 111);
+map.Add(11, 112);
+map.Add(2, 21);
+map.Add(21, 212);
+
+// Creating an equivalent MultiMap from a string
 const string input = """
 1:11,12
 11:111,112
-2:21,212
+2:21
+21:212
 """;
 
-IDictionary<string, ISet<int>> map = input.ParseMultiMap<int>();
+MultiMap<int> parsedMap = MultiMap.Parse<int>(input);
 
-var output = map.RenderMultiMap();
-//  output = input;
+// Rendering the MultiMap back to a string.
+string output = MultiMap.Render(map);
+//     output = input;
 ```
 
 ### Loken.System.Collections.ComponentModel
@@ -220,7 +232,7 @@ DateTime moment = MOMENT.Convert<DateTime>();
 // moment = new DateTime(1900, 3, 1, 12, 30, 59, DateTimeKind.Utc);
 ```
 
-This also means that you can extend these methods simply by registering your own `TypeConverter`. Our `DelimtedStringTypeConverter` is an example of such an extension which allow you to convert a delimited string into an array of strings.
+This also means that you can extend these methods simply by registering your own `TypeConverter`. Our `DelimitedStringTypeConverter` is an example of such an extension which allow you to convert a delimited string into an array of strings.
 
 ```csharp
 var attribute = new TypeConverterAttribute(typeof(DelimitedStringTypeConverter));
