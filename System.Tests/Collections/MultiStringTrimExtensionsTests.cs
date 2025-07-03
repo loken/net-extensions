@@ -2,10 +2,10 @@
 
 public class MultiStringTrimExtensionsTests
 {
-	public static readonly string[] Strings = { "  pad-both ", "pad-start", "pad-end ", "no-pad", "", " ", "  " };
-	public static readonly string[] Trimmed = { "pad-both", "pad-start", "pad-end", "no-pad" };
-	public static readonly string[] TrimmedStart = { "pad-both ", "pad-start", "pad-end ", "no-pad" };
-	public static readonly string[] TrimmedEnd = { "  pad-both", "pad-start", "pad-end", "no-pad" };
+	public static readonly string[] Strings = ["  pad-both ", "pad-start", "pad-end ", "no-pad", "", " ", "  "];
+	public static readonly string[] Trimmed = ["pad-both", "pad-start", "pad-end", "no-pad"];
+	public static readonly string[] TrimmedStart = ["pad-both ", "pad-start", "pad-end ", "no-pad"];
+	public static readonly string[] TrimmedEnd = ["  pad-both", "pad-start", "pad-end", "no-pad"];
 
 	[Fact]
 	public void Trim_StringSequence_YieldsTrimmedSequence()

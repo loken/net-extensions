@@ -33,7 +33,7 @@ public class EnumerableBatchExtensionsTests
 	[Fact]
 	public void Batch_OfOneMore()
 	{
-		var expected = new[] { new[] { 1, 2, 3, 4, 5 }, new[] { 6 } };
+		var expected = new[] { new[] { 1, 2, 3, 4, 5 }, [6] };
 		var actual = Enumerable.Range(1, 6).BatchArrays(5);
 
 		AssertAreBatchesEqual(expected, actual);
@@ -61,7 +61,7 @@ public class EnumerableBatchExtensionsTests
 	[Fact]
 	public void Batch_SkipMultiple()
 	{
-		var expected = new[] { new[] { 5, 6 }, new[] { 7 } };
+		var expected = new[] { new[] { 5, 6 }, [7] };
 		var range = Enumerable.Range(1, 7);
 		var actual = range.Batch(2).Skip(2).ToBatchArray();
 

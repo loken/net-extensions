@@ -9,7 +9,7 @@ public static class StringDefaults
 	/// Separators that will be used by features that need some default separator characters.
 	/// You may want to modify this set at boot time if you need other defaults.
 	/// </summary>
-	public static ISet<char> Separators { get; } = new HashSet<char>() { ':', ';', ',', '|' };
+	public static ISet<char> Separators { get; } = new HashSet<char>() { ':', ';', ',', '.', '|' };
 
 	/// <summary>
 	/// Return the <paramref name="separators"/> when there are some or the <see cref="Separators"/> when there aren't.
@@ -17,7 +17,7 @@ public static class StringDefaults
 	public static char[] GetCharSeparators(char[] separators)
 	{
 		return separators is null or { Length: 0 }
-			? Separators.ToArray()
+			? [.. Separators]
 			: separators;
 	}
 
@@ -27,7 +27,7 @@ public static class StringDefaults
 	public static string[] GetStringSeparators(string[] separators)
 	{
 		return separators is null or { Length: 0 }
-			? Separators.Cast<string>().ToArray()
+			? [.. Separators.Select(c => c.ToString())]
 			: separators;
 	}
 }

@@ -91,9 +91,9 @@ public static class EnumerableBatchExtensions
 			foreach (var item in batch)
 				items.Add(item);
 
-			result.Add(items.ToArray());
+			result.Add([.. items]);
 		}
 
-		return result.ToArray();
+		return [.. result];
 	}
 }

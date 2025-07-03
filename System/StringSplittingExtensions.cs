@@ -57,7 +57,9 @@ public static class StringSplittingExtensions
 	{
 		var parts = source.Split(StringDefaults.GetCharSeparators(separators), 2, StringSplitOptions.None);
 		var key = parts[0];
-		var value = parts.Length == 2 ? parts[1] : default;
+		var value = parts.Length == 2 && !string.IsNullOrEmpty(parts[1])
+			? parts[1]
+			: default;
 
 		return new KeyValuePair<string, string?>(key, value);
 	}
@@ -73,7 +75,9 @@ public static class StringSplittingExtensions
 	{
 		var parts = source.Split(StringDefaults.GetCharSeparators(separators), 2, StringSplitOptions.None);
 		var key = parts[0].ChangeType<TKey>();
-		var value = parts.Length == 2 ? parts[1].ChangeType<TValue>() : default;
+		var value = parts.Length == 2 && !string.IsNullOrEmpty(parts[1])
+			? parts[1].ChangeType<TValue>()
+			: default;
 
 		return new KeyValuePair<TKey, TValue?>(key, value);
 	}

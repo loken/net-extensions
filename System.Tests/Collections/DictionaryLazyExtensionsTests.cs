@@ -70,7 +70,7 @@ public class DictionaryLazyExtensionsTests
 		_ = second.Add(30);
 
 		Assert.Same(first, second);
-		Assert.Equal(new[] { 10, 20, 30 }, first.ToArray());
+		Assert.Equal([10, 20, 30], first.ToArray());
 	}
 
 	private class HasDefaultValueFromConstructor

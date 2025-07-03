@@ -46,8 +46,8 @@ public class DictionaryInversionExtensionsTests
 
 		var inverse = dict.InvertMany();
 
-		Assert.Equal(new[] { 1 }, inverse["some"].ToArray());
-		Assert.Equal(new[] { 2, 3 }, inverse["other"].ToArray());
+		Assert.Equal([1], inverse["some"].ToArray());
+		Assert.Equal([2, 3], inverse["other"].ToArray());
 	}
 
 
@@ -63,7 +63,7 @@ public class DictionaryInversionExtensionsTests
 
 		var inverse = dict.InvertSet();
 
-		Assert.Equal(new[] { 1 }, inverse["some"].ToArray());
-		Assert.Equal(new[] { 2, 3 }, inverse["other"].ToArray());
+		Assert.Equal([1], inverse["some"].ToArray());
+		Assert.Equal([2, 3], inverse["other"].ToArray());
 	}
 }

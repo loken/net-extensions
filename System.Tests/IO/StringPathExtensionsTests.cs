@@ -13,23 +13,23 @@ public class StringPathExtensionsTests
 		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 		{
 			directory = @"C:\Dev\A\B";
-			directories = new string[] {
+			directories = [
 				@"C:\Dev\A\B",
 				@"C:\Dev\A",
 				@"C:\Dev",
 				@"C:\",
-			};
+			];
 		}
 		else
 		{
 			directory = @"/Dev/A/B";
-			directories = new[]
-			{
+			directories =
+			[
 				@"/Dev/A/B",
 				@"/Dev/A",
 				@"/Dev",
 				@"/",
-			};
+			];
 		}
 
 		var ancestry = directory.DirectoryAncestry();
