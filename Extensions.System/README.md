@@ -2,9 +2,7 @@
 
 ![Nuget](https://img.shields.io/nuget/v/Loken.Extensions.System)
 
-Extension methods and a few utility classes for extending functionality that you'd typically find in the `System` namespace of .NET so that it's more convenient to use and generates less boiler plate code.
-
-Uses [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/nullable-reference-types).
+Extension methods for extending functionality that you'd typically find in the `System` namespace of .NET so that it's more convenient to use and generates less boiler plate code.
 
 
 ## Getting started
@@ -81,19 +79,6 @@ Some of these provide extra utility and others are convenience wrappers for stan
 
 ### Loken.System.IO
 
-* Read environment variables from `.env` and `.env.<EnvironmentName>` files.
-
-  Given an env-file with the following content:
-  ```ini
-  STUFF=stuffer
-  THING=thingy
-  ```
-  Calling load will add the two environment variables.
-  ```csharp
-  DotEnv.Load();
-  ```
-  The file can be in any ancestry folder, and you can optionally specify a different directory than the current directory or even a different file name.
-
 * Enumerate a directory ancestry
   ```csharp
   IEnumerable<string> result = @"C:\Dev\Thing".DirectoryAncestry();
@@ -157,15 +142,6 @@ Some of these provide extra utility and others are convenience wrappers for stan
   queue.Enqueue(strings);
   ```
 
-* Interchangeable data structure for queues and stacks
-  ```csharp
-  ILinear<string> strings = useQueue ? new LinearQueue<string>() : new LinearStack<string>();
-  strings.Attach("A", "B");
-  var one = strings.Detach();
-  var two = strings.Detach();
-  // Content of one and two depends on useQueue.
-  ```
-
 * Read/write a dictionary of strings to a string so that it can be passed in a URL.
   ```csharp
   const string source = "ANull~Str:SomeText~Text:Some text";
@@ -186,39 +162,6 @@ Some of these provide extra utility and others are convenience wrappers for stan
   ```
   You can also pass custom separators for separating pairs and entries.
 
-### Loken.System.Collections.MultiMap
-
-A `MultiMap` is a `Dictionary<T, ISet<T>>` where each key maps to multiple values of the same type and provides convenience methods for managing multiple values per key.
-
-The `MultiMap` class provides `.Render()` and `.Parse()` methods which can act as serializers and takes some optional settings to control separators.
-
-We use `Convert.ChangeType` and `.ToString()` for conversions.
-
-```csharp
-// Creating a MultiMap explicitly
-var map = new MultiMap<int>();
-map.Add(1, 11);
-map.Add(1, 12);
-map.Add(11, 111);
-map.Add(11, 112);
-map.Add(2, 21);
-map.Add(21, 212);
-
-// Creating an equivalent MultiMap from a string
-const string input = """
-1:11,12
-11:111,112
-2:21
-21:212
-""";
-
-MultiMap<int> parsedMap = MultiMap.Parse<int>(input);
-
-// Rendering the MultiMap back to a string.
-string output = MultiMap.Render(map);
-//     output = input;
-```
-
 ### Loken.System.Collections.ComponentModel
 
 We provide some convenience extension methods for the component model which makes it easier to use the `TypeConverter`s registered in the `TypeDescriptors`.
@@ -232,15 +175,7 @@ DateTime moment = MOMENT.Convert<DateTime>();
 // moment = new DateTime(1900, 3, 1, 12, 30, 59, DateTimeKind.Utc);
 ```
 
-This also means that you can extend these methods simply by registering your own `TypeConverter`. Our `DelimitedStringTypeConverter` is an example of such an extension which allow you to convert a delimited string into an array of strings.
-
-```csharp
-var attribute = new TypeConverterAttribute(typeof(DelimitedStringTypeConverter));
-TypeDescriptor.AddAttributes(typeof(ICollection<string>), attribute);
-
-string[] arr = "one;other".Convert<string[]>();
-//       arr = new[] { "one", "other" };
-```
+This also means that you can extend these methods simply by registering your own `TypeConverter`.
 
 
 ## Feedback & Contribution
@@ -249,4 +184,4 @@ If you like what you see so far or would like to suggest changes to improve or e
 
 You can run the tests by cloning the repo, restoring packages, compiling and running the tests. There is no magic. There is a visual studio solution if you also like that.
 
-The repository may contain projects for other packages as well down the line. Especially if I hear that people want to use this. :)
+The repository contains projects for other packages as well.

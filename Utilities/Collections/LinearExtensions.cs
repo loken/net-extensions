@@ -1,4 +1,4 @@
-﻿namespace Loken.System.Collections;
+﻿namespace Loken.Utilities.Collections;
 
 /// <summary>
 /// Basic <see cref="ILinear{T}"/> extensions

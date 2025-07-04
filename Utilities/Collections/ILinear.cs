@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Loken.System.Collections;
+namespace Loken.Utilities.Collections;
 
 /// <summary>
 /// A wrapper interface for linear data structures such as <see cref="Queue{T}"/> and <see cref="Stack{T}"/>

@@ -1,7 +1,7 @@
 ﻿using Loken.System;
 using Loken.System.IO;
 
-namespace Loken.Hierarchies.Data.MongoDB;
+namespace Loken.Utilities.IO;
 
 /// <summary>
 /// Load environment variables from files from a directory or an ancestor of that directory.

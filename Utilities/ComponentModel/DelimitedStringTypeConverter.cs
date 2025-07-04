@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Loken.System;
 
-namespace Loken.System.ComponentModel;
+namespace Loken.Utilities.ComponentModel;
 
 /// <summary>
 /// Converts a source string into an array of strings based on delimiters.

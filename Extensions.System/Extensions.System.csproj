@@ -5,8 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <AssemblyName>Loken.Extensions.System</AssemblyName>
+    <RootNamespace>Loken.System</RootNamespace>
     <Title>System extensions</Title>
-    <Description>Extensions and utilities for the System namespace.</Description>
+    <Description>Extensions for the System namespace.</Description>
   </PropertyGroup>
 
 </Project>

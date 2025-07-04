@@ -1,4 +1,7 @@
-namespace Loken.System.Collections.MultiMap;
+using Loken.System;
+using Loken.System.Collections;
+
+namespace Loken.Utilities.Collections;
 
 /// <summary>
 /// A dictionary of keys to sets of values, representing a multi-map data structure.
@@ -128,9 +131,7 @@ public class MultiMap<T> : Dictionary<T, ISet<T>> where T : notnull
 			var key = rawKey.ChangeType<T>();
 
 			if (rawValue is null)
-			{
 				Add(key);
-			}
 			else
 			{
 				var values = rawValue.SplitBy(sep.Value).Select(v => v.ChangeType<T>());

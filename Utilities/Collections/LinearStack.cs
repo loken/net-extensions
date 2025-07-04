@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Loken.System.Collections;
+namespace Loken.Utilities.Collections;
 
 /// <summary>
 /// An <see cref="ILinear{T}"/> <see cref="Stack{T}"/>.

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
+using Loken.System.ComponentModel;
 
-namespace Loken.System.ComponentModel;
+namespace Loken.Utilities.ComponentModel;
 
 public class DelimitedStringTypeConverterTests : IDisposable
 {

@@ -4,8 +4,6 @@
     <IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>
     <IsPackable Condition="'$(IsPackable)' == ''">true</IsPackable>
 
-    <AssemblyName>Loken.Extensions.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Loken.$(MSBuildProjectName.Replace('.Tests', ''))</RootNamespace>
     <Authors>Gaute Løken</Authors>
   </PropertyGroup>
 
@@ -30,6 +28,10 @@
   <ItemGroup>
     <!--We always want to be able to access internals from the corresponding test project.-->
     <InternalsVisibleTo Condition="!$(IsTestProject)" Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsTestProject)">
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>

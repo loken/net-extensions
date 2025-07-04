@@ -1,4 +1,4 @@
-namespace Loken.System.Collections.MultiMap;
+namespace Loken.Utilities.Collections;
 
 public class MultiMapSerializationTests
 {
