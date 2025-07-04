@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyName>Loken.Utilities</AssemblyName>
+    <RootNamespace>Loken.Utilities</RootNamespace>
+    <Title>Utilities</Title>
+    <Description>Utility library.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Extensions.System\Extensions.System.csproj" />
+  </ItemGroup>
+
+</Project>

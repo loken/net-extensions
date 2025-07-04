@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyName>Loken.Extensions.System</AssemblyName>
+    <RootNamespace>Loken.System</RootNamespace>
+    <Title>System extensions</Title>
+    <Description>Extensions for the System namespace.</Description>
+  </PropertyGroup>
+
+</Project>
